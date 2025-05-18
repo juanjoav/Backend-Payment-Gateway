@@ -17,7 +17,7 @@ export class Product {
   @Column('int')
   stock: number;
 
-  @Column('string')
+  @Column('text')
   imageUrl: string;
 
 }

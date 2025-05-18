@@ -23,7 +23,7 @@ import { SeedService } from './seed/seed.service';
       password: configService.get<string>('DB_PASSWORD'),
       database: configService.get<string>('DB_DATABASE'),
       autoLoadEntities: true, 
-      // synchronize: process.env.NODE_ENV !== 'production', 
+      synchronize: true, 
     }),
     inject: [ConfigService],
     }),

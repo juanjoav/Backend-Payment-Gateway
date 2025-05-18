@@ -39,18 +39,21 @@ export class SeedService implements OnApplicationBootstrap {
           description: 'Último modelo con cámara de 108MP',
           price: 1999999,
           stock: 50,
+          imageUrl: 'https://media.metrolatam.com/2019/04/17/samsunggalaxys10-3baa790bcda2a1857498eebc7f0a735b-1200x800.jpg',
         },
         {
           name: 'Laptop Profesional',
           description: '16GB RAM, 512GB SSD, Intel i7',
           price: 3499999,
           stock: 30,
+          imageUrl: 'https://placeholder.pics/svg/300x300',
         },
         {
           name: 'Auriculares Inalámbricos',
           description: 'Cancelación de ruido activa',
           price: 599999,
           stock: 100,
+          imageUrl: 'https://placeholder.pics/svg/300x300',
         },
       ];
 

@@ -16,4 +16,5 @@ export class ProductsController {
     findOne(id: string): Promise<Product> {
         return this.productsService.findOne(id);
     }
+
 }
