@@ -1,26 +1,24 @@
+import { TransactionProduct } from "src/transactions/entities/transactionProduct.entities";
 import { Transaction } from "src/transactions/entities/transactions.entites";
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Product {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
-  @Column()
-  name: string;
+    @Column()
+    name: string;
 
-  @Column('text')
-  description: string;
+    @Column('text')
+    description: string;
 
-  @Column('decimal', { precision: 10, scale: 2 })
-  price: number;
+    @Column('decimal', { precision: 10, scale: 2 })
+    price: number;
 
-  @Column('int')
-  stock: number;
+    @Column('int')
+    stock: number;
 
-  @Column('text')
-  imageUrl: string;
-
-  @ManyToMany(() => Transaction, transaction => transaction.products)
-  transactions: Transaction[];
+    @OneToMany(() => TransactionProduct, transactionProduct => transactionProduct.product)
+    transactionProducts: TransactionProduct[];
 }

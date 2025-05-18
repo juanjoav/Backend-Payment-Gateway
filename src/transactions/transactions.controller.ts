@@ -34,7 +34,7 @@ export class TransactionsController {
             return updatedTransaction;
         } catch (error) {
              if (error instanceof NotFoundException) {
-                throw error; // Reenvía NotFoundException
+                throw error;
             } else {
                 console.error('Error al actualizar el estado de la transacción:', error);
                 throw new InternalServerErrorException('No se pudo actualizar el estado de la transacción');
@@ -42,20 +42,20 @@ export class TransactionsController {
         }
     }
 
-    @Get('latest')
-    async getLatestTransactions(
-    @Query('limit') limit: string = '10',
-    ): Promise<Transaction[]> {
-        try {
-            const parsedLimit = parseInt(limit, 10);
-            if (isNaN(parsedLimit) || parsedLimit <= 0) {
-                throw new InternalServerErrorException('El límite debe ser un número positivo');
-            }
-            const transactions = await this.transactionsService.getLatestTransactions(parsedLimit);
-            return transactions;
-        } catch (error) {
-            console.error('Error al obtener las últimas transacciones:', error);
-            throw new InternalServerErrorException('No se pudieron obtener las últimas transacciones');
-        }
-    }
+    // @Get('latest')
+    // async getLatestTransactions(
+    // @Query('limit') limit: string = '10',
+    // ): Promise<Transaction[]> {
+    //     try {
+    //         const parsedLimit = parseInt(limit, 10);
+    //         if (isNaN(parsedLimit) || parsedLimit <= 0) {
+    //             throw new InternalServerErrorException('El límite debe ser un número positivo');
+    //         }
+    //         const transactions = await this.transactionsService.getLatestTransactions(parsedLimit);
+    //         return transactions;
+    //     } catch (error) {
+    //         console.error('Error al obtener las últimas transacciones:', error);
+    //         throw new InternalServerErrorException('No se pudieron obtener las últimas transacciones');
+    //     }
+    // }
 }
