@@ -5,6 +5,7 @@ import { ProductsModule } from './products/products.module';
 import { TransactionsModule } from './transactions/transactions.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { SeedService } from './seed/seed.service';
 
 @Module({
   imports: [
@@ -29,6 +30,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     ProductsModule, 
     TransactionsModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, SeedService],
 })
 export class AppModule {}
