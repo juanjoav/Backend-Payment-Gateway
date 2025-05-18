@@ -3,20 +3,20 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, ManyToMa
 
 @Entity()
 export class Transaction {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ type: 'varchar', length: 255, unique: true })
-  transactionNumber: string; // Número de transacción único
+  transactionNumber: string; 
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
-  amount: number; // Monto total de la transacción
+  amount: number; 
 
   @Column({ type: 'enum', enum: ['PENDING', 'SUCCESSFUL', 'FAILED'], default: 'PENDING' })
-  status: string; // Estado de la transacción
+  status: string; 
 
   @Column({ type: 'jsonb', nullable: true })
-  paymentDetails: any; // Detalles del pago (podría variar según la pasarela)
+  paymentDetails: any;
 
   @Column({ type: 'jsonb', nullable: true })
   deliveryData: any;
