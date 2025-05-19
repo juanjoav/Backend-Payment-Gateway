@@ -5,11 +5,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Transaction } from './entities/transactions.entites';
 import { ProductsModule } from 'src/products/products.module';
 import { TransactionProduct } from './entities/transactionProduct.entities';
+import { HttpModule } from '@nestjs/axios';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Transaction, TransactionProduct]),
-    ProductsModule
+    ProductsModule,
+    HttpModule,
+    ConfigModule
   ],
   providers: [TransactionsService],
   controllers: [TransactionsController],

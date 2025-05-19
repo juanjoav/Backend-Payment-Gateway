@@ -5,8 +5,12 @@ import { FindOptionsOrder, In, IsNull, Repository } from 'typeorm';
 import { Product } from 'src/products/entities/products.entity';
 import { UpdateTransactionStatusDto } from './dto/updatedto';
 import { CreateTransactionDto } from './dto/createdto';
-import { isEmpty } from 'rxjs';
+import { firstValueFrom, isEmpty } from 'rxjs';
 import { TransactionProduct } from './entities/transactionProduct.entities';
+import { HttpService } from '@nestjs/axios';
+import { ConfigService } from '@nestjs/config';
+import * as crypto from 'crypto';
+
 
 @Injectable()
 export class TransactionsService {
@@ -17,6 +21,8 @@ export class TransactionsService {
         private readonly productRepository: Repository<Product>,
         @InjectRepository(TransactionProduct)
         private readonly transactionProductRepository: Repository<TransactionProduct>,
+        private readonly httpService: HttpService,
+        private readonly configService: ConfigService,
     ) {}
 
     async create(createTransactionDto: CreateTransactionDto): Promise<Transaction> {
@@ -41,9 +47,12 @@ export class TransactionsService {
             }
         }
 
+        const acceptanceToken = await this.fetchAcceptanceToken();
+
         const newTransaction = this.transactionRepository.create({
             ...transactionData,
             status: 'PENDING',
+            acceptanceToken: acceptanceToken,
         });
 
         try {
@@ -72,6 +81,17 @@ export class TransactionsService {
         }
     }
 
+    private async fetchAcceptanceToken(): Promise<string> {
+        const publicKey = this.configService.get<string>('WOMPI_PUBLIC_KEY');
+        const url = `https://api-sandbox.co.uat.wompi.dev/v1/merchants/${publicKey}`;
+        try {
+            const response = await firstValueFrom(this.httpService.get(url));
+            return response.data.data.presigned_acceptance.acceptance_token;
+        } catch (error) {
+            throw new InternalServerErrorException('Error al obtener el acceptance_token de Wompi');
+        }
+    }
+
     async updateStatus(id: string, updateTransactionStatusDto: UpdateTransactionStatusDto): Promise<Transaction> {
         // const transactionId = parseInt(id, 10);
 
@@ -95,6 +115,18 @@ export class TransactionsService {
         } catch (error) {
             throw new InternalServerErrorException('Error al actualizar la transacción: ' + error.message);
         }
+    }
+
+    protected  generateIntegrityHash(
+        reference: string,
+        amount: number,
+        currency: string,
+        expiration: string,
+        integritySecret: string,
+    ): string {
+    const concatenated = `${reference}${amount}${currency}${expiration}${integritySecret}`;
+    const hash = crypto.createHash('sha256').update(concatenated, 'utf-8').digest('hex');
+    return hash;
     }
 
 }

@@ -12,7 +12,12 @@ export class ProductsService {
     ) {}
 
     async findAll(): Promise<Product[]> {
-        return this.productsRepository.find();
+        const products = await this.productsRepository.find();
+        
+        return products.map(p => ({
+            ...p,
+            price: Number(p.price),
+            }));
     }
     
     async findOne(id: string): Promise<Product> {

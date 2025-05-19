@@ -19,6 +19,9 @@ export class Product {
     @Column('int')
     stock: number;
 
+    @Column('text')
+    image: string;
+
     @OneToMany(() => TransactionProduct, transactionProduct => transactionProduct.product)
     transactionProducts: TransactionProduct[];
 }

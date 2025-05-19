@@ -21,6 +21,18 @@ export class Transaction {
 
     @Column({ type: 'jsonb', nullable: true })
     deliveryData: any;
+    
+    @Column({ type: 'text' })
+    cardToken: string;
+
+    @Column({ type: 'text' })
+    acceptanceToken: string;
+
+    @Column({ type: 'text' })
+    email: string;
+
+    @Column({ type: 'int' })
+    installments: number;
 
     @OneToMany(() => TransactionProduct, transactionProduct => transactionProduct.transaction)
     transactionProducts: TransactionProduct[];
