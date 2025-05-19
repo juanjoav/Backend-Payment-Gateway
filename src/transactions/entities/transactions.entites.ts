@@ -13,7 +13,7 @@ export class Transaction {
     @Column({ type: 'decimal', precision: 10, scale: 2 })
     amount: number;
 
-    @Column({ type: 'enum', enum: ['PENDING', 'SUCCESSFUL', 'FAILED'], default: 'PENDING' })
+    @Column({ type: 'enum', enum: ['PENDING', 'APPROVED', 'DECLINED', 'VOIDED'], default: 'PENDING' })
     status: string;
 
     @Column({ type: 'jsonb', nullable: true })
@@ -33,6 +33,10 @@ export class Transaction {
 
     @Column({ type: 'int' })
     installments: number;
+
+    @Column({ type: 'text', nullable: true })
+    idWompy: string;
+
 
     @OneToMany(() => TransactionProduct, transactionProduct => transactionProduct.transaction)
     transactionProducts: TransactionProduct[];

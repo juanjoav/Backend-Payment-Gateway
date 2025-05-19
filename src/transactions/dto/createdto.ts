@@ -7,4 +7,5 @@ export class CreateTransactionDto {
     deliveryData?: any;
     email: string;
     installments: number;
+    idWompy: string;
 }

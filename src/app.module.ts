@@ -6,6 +6,7 @@ import { TransactionsModule } from './transactions/transactions.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SeedService } from './seed/seed.service';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
@@ -28,7 +29,8 @@ import { SeedService } from './seed/seed.service';
     inject: [ConfigService],
     }),
     ProductsModule, 
-    TransactionsModule],
+    TransactionsModule,
+    HttpModule],
   controllers: [AppController],
   providers: [AppService, SeedService],
 })
